@@ -1,7 +1,7 @@
 # Copyright 2017 syzkaller project authors. All rights reserved.
 # Use of this source code is governed by Apache 2 LICENSE that can be found in the LICENSE file.
 
-include <sys/types.h>
+include <sys/param.h>
 include <sys/mman.h>
 
 mmap(addr vma, len len[addr], prot flags[mmap_prot], flags flags[mmap_flags], fd fd, offset fileoff)
@@ -16,6 +16,6 @@ munlockall()
 
 mmap_prot = PROT_EXEC, PROT_READ, PROT_WRITE
 msync_flags = MS_ASYNC, MS_SYNC, MS_INVALIDATE
-mmap_flags = MAP_SHARED, MAP_PRIVATE, MAP_32BIT, MAP_ANON, MAP_FILE, MAP_FIXED, MAP_STACK
+mmap_flags = MAP_SHARED, MAP_PRIVATE, MAP_32BIT, MAP_ANON, MAP_ANONYMOUS, MAP_FILE, MAP_FIXED, MAP_STACK
 madvise_flags = MADV_NORMAL, MADV_RANDOM, MADV_SEQUENTIAL, MADV_WILLNEED, MADV_DONTNEED
 mlockall_flags = MCL_CURRENT, MCL_FUTURE

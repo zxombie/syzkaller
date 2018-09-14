@@ -2128,6 +2128,7 @@ var consts_amd64 = []ConstValue{
 	{Name: "MADV_WILLNEED", Value: 3},
 	{Name: "MAP_32BIT", Value: 524288},
 	{Name: "MAP_ANON", Value: 4096},
+	{Name: "MAP_ANONYMOUS", Value: 4096},
 	{Name: "MAP_FILE"},
 	{Name: "MAP_FIXED", Value: 16},
 	{Name: "MAP_PRIVATE", Value: 2},

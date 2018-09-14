@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
+	//"strings"
 
 	"github.com/google/syzkaller/pkg/compiler"
 )
@@ -42,6 +42,7 @@ func (*freebsd) processFile(arch *Arch, info *compiler.ConstInfo) (map[string]ui
 		"-nostdinc",
 		"-D_KERNEL",
 		"-D__BSD_VISIBLE=1",
+		"-DMAP_ANONYMOUS=MAP_ANON",
 		"-I", filepath.Join(arch.sourceDir, "sys"),
 		"-I", filepath.Join(arch.sourceDir, "sys", "sys"),
 		"-I", filepath.Join(arch.sourceDir, "sys", "amd64"),
@@ -53,21 +54,21 @@ func (*freebsd) processFile(arch *Arch, info *compiler.ConstInfo) (map[string]ui
 	// Syscall consts on freebsd have weird prefixes sometimes,
 	// try to extract consts with these prefixes as well.
 	compatNames := make(map[string][]string)
-	for _, val := range info.Consts {
-		const SYS = "SYS_"
-		if strings.HasPrefix(val, SYS) {
-			for _, prefix := range []string{"__", "freebsd11_", "freebsd10_", "freebsd7_"} {
-				compat := SYS + prefix + val[len(SYS):]
-				compatNames[val] = append(compatNames[val], compat)
-				info.Consts = append(info.Consts, compat)
-			}
-		} else {
-			compat := "LINUX_" + val
-			compatNames[val] = append(compatNames[val], compat)
-			info.Consts = append(info.Consts, compat)
-		}
-	}
-	res, undeclared, err := extract(info, "gcc", args, "#include <sys/syscall.h>", true)
+	//for _, val := range info.Consts {
+	//	const SYS = "SYS_"
+	//	if strings.HasPrefix(val, SYS) {
+	//		for _, prefix := range []string{"_", "__", "freebsd11_", "freebsd10_", "freebsd7_"} {
+	//			compat := SYS + prefix + val[len(SYS):]
+	//			compatNames[val] = append(compatNames[val], compat)
+	//			info.Consts = append(info.Consts, compat)
+	//		}
+	//	} else {
+	//		compat := "LINUX_" + val
+	//		compatNames[val] = append(compatNames[val], compat)
+	//		info.Consts = append(info.Consts, compat)
+	//	}
+	//}
+	res, undeclared, err := extract(info, "clang", args, "#include <sys/syscall.h>", true)
 	for orig, compats := range compatNames {
 		for _, compat := range compats {
 			if undeclared[orig] && !undeclared[compat] {

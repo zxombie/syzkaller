@@ -101,6 +101,7 @@ func compile(cc string, args []string, data *CompileData) (bin string, out []byt
 	if err := srcTemplate.Execute(src, data); err != nil {
 		return "", nil, fmt.Errorf("failed to generate source: %v", err)
 	}
+//	src.WriteTo(os.Stderr)
 	binFile, err := osutil.TempFile("syz-extract-bin")
 	if err != nil {
 		return "", nil, err
