@@ -168,6 +168,7 @@ var List = map[string]map[string]*Target{
 			PtrSize:     8,
 			PageSize:    4 << 10,
 			CFlags:      []string{"-m64"},
+			CCompiler:   "clang++",
 			CrossCFlags: []string{"-m64", "-static"},
 		},
 	},
