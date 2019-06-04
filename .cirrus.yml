@@ -1,6 +1,8 @@
 freebsd_task:
   freebsd_instance:
     image: freebsd-12-0-release-amd64
+  env:
+    CIRRUS_WORKING_DIR: "$HOME/go/src/github.com/google/syzkaller"
   install_script:
     - pkg install -y bash gcc git gmake go llvm
   script:
