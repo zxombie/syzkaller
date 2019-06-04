@@ -1,0 +1,8 @@
+freebsd_task:
+  freebsd_instance:
+    image: freebsd-12-0-release-amd64
+  install_script:
+    - pkg install -y bash gcc git gmake go llvm
+
+  script:
+    - gmake presubmit
